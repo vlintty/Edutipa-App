@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Serene Corner</title>
+  <title>Cloudy Thoughts</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -13,7 +13,7 @@
     }
 
     body {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -28,7 +28,8 @@
       background-size: 300% 300%;
       animation: gradientFlow 10s ease infinite;
       color: #4A3A58;
-      overflow: hidden;
+      overflow-x: hidden;
+      padding: 40px 20px;
       position: relative;
     }
 
@@ -36,7 +37,7 @@
       font-family: 'Playfair Display', serif;
       font-size: 3rem;
       color: #3B2E4D;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       animation: fadeDown 1s ease forwards;
     }
 
@@ -46,7 +47,42 @@
       line-height: 1.8;
       color: #51425E;
       opacity: 0;
-      animation: fadeUp 1.5s ease forwards 0.6s;
+      animation: fadeUp 1.5s ease forwards 0.5s;
+      margin-bottom: 40px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 700px;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+      animation: fadeUp 1.5s ease forwards 0.9s;
+    }
+
+    th, td {
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    th {
+      background: rgba(255, 236, 236, 0.7);
+      color: #3B2E4D;
+      font-weight: 600;
+    }
+
+    td {
+      color: #4A3A58;
+      font-size: 0.95rem;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: scale(1.01);
+      transition: all 0.3s ease;
     }
 
     .signature {
@@ -70,7 +106,7 @@
       transition: all 0.3s ease;
       box-shadow: 0 6px 20px rgba(0,0,0,0.1);
       opacity: 0;
-      animation: fadeUp 2s ease forwards 1.8s;
+      animation: fadeUp 2s ease forwards 1.5s;
     }
 
     .btn:hover {
@@ -78,7 +114,6 @@
       transform: scale(1.08);
     }
 
-    /* Floating pastel circles */
     .circle {
       position: absolute;
       border-radius: 50%;
@@ -119,14 +154,30 @@
   <div class="circle"></div>
   <div class="circle"></div>
 
-  <h1>Welcome to Cloudy Thoughts</h1>
-  <p>
-    A little corner of creativity and calm —  
-        built with heart, code, and a sprinkle of dreams.  
-        Where every line and color tells a piece of Ulfahtun’s story 
-  </p>
+  <h1>Data Buku Favorite☁️</h1>
 
-  <div class="signature">— crafted by Ulfahtun Nur Karomah </div>
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Judul Buku</th>
+        <th>Penulis</th>
+        <th>Tahun Terbit</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach ($books as $index => $book)
+      <tr>
+        <td>{{ $index + 1 }}</td>
+        <td>{{ $book['judul'] }}</td>
+        <td>{{ $book['penulis'] }}</td>
+        <td>{{ $book['tahun'] }}</td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+
+  <div class="signature">— crafted with calmness by Ulfahtun Nur Karomah ✨</div>
 
   <a href="/" class="btn">Back to Main</a>
 </body>
