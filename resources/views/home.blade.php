@@ -6,11 +6,7 @@
   <title>Cloudy Thoughts</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       min-height: 100vh;
@@ -20,11 +16,7 @@
       align-items: center;
       text-align: center;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, 
-        #86A788 5%, 
-        #FFE2E2 35%, 
-        #FFCFCF 60%, 
-        #FFFDEC 100%);
+      background: linear-gradient(135deg, #86A788 5%, #FFE2E2 35%, #FFCFCF 60%, #FFFDEC 100%);
       background-size: 300% 300%;
       animation: gradientFlow 10s ease infinite;
       color: #4A3A58;
@@ -41,14 +33,28 @@
       animation: fadeDown 1s ease forwards;
     }
 
-    p {
-      font-size: 1.1rem;
-      max-width: 520px;
-      line-height: 1.8;
-      color: #51425E;
-      opacity: 0;
-      animation: fadeUp 1.5s ease forwards 0.5s;
-      margin-bottom: 40px;
+    /* Search bar */
+    .search-container {
+      margin: 20px 0 30px;
+      animation: fadeUp 1.5s ease forwards 0.7s;
+    }
+
+    .search-input {
+      padding: 10px 18px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      width: 260px;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      color: #3B2E4D;
+    }
+
+    .search-input:focus {
+      background: rgba(255, 255, 255, 0.9);
+      transform: scale(1.03);
     }
 
     table {
@@ -77,12 +83,23 @@
     td {
       color: #4A3A58;
       font-size: 0.95rem;
+      transition: opacity 0.4s ease;
+    }
+
+    tr {
+      transition: all 0.3s ease;
+    }
+
+    tr.hide {
+      opacity: 0;
+      transform: scale(0.98);
+      pointer-events: none;
+      height: 0;
     }
 
     tr:hover {
       background: rgba(255, 255, 255, 0.8);
       transform: scale(1.01);
-      transition: all 0.3s ease;
     }
 
     .signature {
@@ -154,9 +171,14 @@
   <div class="circle"></div>
   <div class="circle"></div>
 
-  <h1>Data Buku Favorite☁️</h1>
+  <h1>Data Buku Favorit☁️</h1>
 
-  <table>
+  <!-- 🔍 Search Bar -->
+  <div class="search-container">
+    <input type="text" id="searchInput" class="search-input" placeholder="Cari buku...">
+  </div>
+
+  <table id="bookTable">
     <thead>
       <tr>
         <th>No</th>
@@ -180,5 +202,23 @@
   <div class="signature">— crafted with calmness by Ulfahtun Nur Karomah ✨</div>
 
   <a href="/" class="btn">Back to Main</a>
+
+  <script>
+    // ✨ Fitur Pencarian Buku dengan animasi lembut
+    const searchInput = document.getElementById('searchInput');
+    const tableRows = document.querySelectorAll('#bookTable tbody tr');
+
+    searchInput.addEventListener('keyup', () => {
+      const keyword = searchInput.value.toLowerCase();
+      tableRows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        if (text.includes(keyword)) {
+          row.classList.remove('hide');
+        } else {
+          row.classList.add('hide');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

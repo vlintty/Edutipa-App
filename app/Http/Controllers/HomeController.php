@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $books = [
             ['judul' => 'Pride and Prejudice', 'penulis' => 'Jane Austen', 'tahun' => '1813'],
@@ -18,6 +18,15 @@ class HomeController extends Controller
             ['judul' => 'Wuthering Heights', 'penulis' => 'Emily Brontë', 'tahun' => '1847'],
         ];
 
-        return view('home', compact('books'));
+        $search = $request->get('search');
+
+        if ($search) {
+            $books = array_filter($books, function ($book) use ($search) {
+                return stripos($book['judul'], $search) !== false ||
+                       stripos($book['penulis'], $search) !== false;
+            });
+        }
+
+        return view('home', compact('books', 'search'));
     }
 }
