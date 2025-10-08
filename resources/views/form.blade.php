@@ -156,7 +156,7 @@
   <div class="bubble"></div>
   <div class="bubble"></div>
 
-  <h1>💌 Kirim Pesan Untuk Buku Favoritmu</h1>
+  <h1>💌 Kirim Pesan </h1>
 
   <form action="{{ route('form.submit') }}" method="POST">
     @csrf
