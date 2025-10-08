@@ -1,164 +1,211 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloudy Thoughts</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <title>Daftar Buku Luar Negeri</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #86A788 5%, #FFE2E2 35%, #FFCFCF 60%, #FFFDEC 100%);
-      background-size: 300% 300%;
-      animation: gradientFlow 10s ease infinite;
-      color: #4A3A58;
+      color: #333;
+      min-height: 100vh;
       overflow-x: hidden;
-      padding: 40px 20px;
       position: relative;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    /* 🌈 Animasi Background Gradasi Bergerak */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: linear-gradient(270deg, #FFCFCF, #FFF6B7, #B8E8C1, #FFD1E3);
+      background-size: 800% 800%;
+      animation: gradientMove 15s ease infinite;
+    }
+
+    /* 🫧 Bubble Animasi */
+    .bubble {
+      position: fixed;
+      bottom: -100px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      animation: rise 12s infinite ease-in;
+      z-index: -1;
+      backdrop-filter: blur(2px);
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+    }
+
+    /* Bubble variasi ukuran & posisi */
+    .bubble:nth-child(1) { left: 10%; width: 60px; height: 60px; animation-delay: 0s; }
+    .bubble:nth-child(2) { left: 30%; width: 25px; height: 25px; animation-delay: 3s; }
+    .bubble:nth-child(3) { left: 50%; width: 80px; height: 80px; animation-delay: 6s; }
+    .bubble:nth-child(4) { left: 70%; width: 40px; height: 40px; animation-delay: 1.5s; }
+    .bubble:nth-child(5) { left: 85%; width: 50px; height: 50px; animation-delay: 4s; }
+
+    /* ✨ Kontainer */
+    .container {
+      max-width: 850px;
+      margin: 80px auto;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      animation: fadeUp 1.3s ease-in-out;
     }
 
     h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      color: #3B2E4D;
-      margin-bottom: 15px;
-      animation: fadeDown 1s ease forwards;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #332D56;
+      font-size: 2.3rem;
+      text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.6);
+      animation: slideDown 1s ease-out;
     }
 
-    /* Search bar */
-    .search-container {
-      margin: 20px 0 30px;
-      animation: fadeUp 1.5s ease forwards 0.7s;
+    /* 🔍 Pencarian */
+    .search-box {
+      text-align: center;
+      margin-bottom: 25px;
+      animation: fadeUp 1.5s ease;
     }
 
-    .search-input {
-      padding: 10px 18px;
-      border-radius: 25px;
-      border: none;
+    .search-box form {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .search-box input {
+      width: 70%;
+      padding: 12px 15px;
+      border-radius: 10px;
+      border: 2px solid #FFCFCF;
       outline: none;
-      width: 260px;
-      font-size: 1rem;
-      background: rgba(255, 255, 255, 0.6);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      font-size: 16px;
+      background-color: #FFFDEC;
+      color: #333;
+      transition: 0.3s;
+    }
+
+    .search-box input:focus {
+      border-color: #71C0BB;
+      box-shadow: 0 0 10px rgba(255, 182, 193, 0.6);
+    }
+
+    .search-box button {
+      background-color: #FFB6C1;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #332D56;
+      font-weight: bold;
       transition: all 0.3s ease;
-      color: #3B2E4D;
     }
 
-    .search-input:focus {
-      background: rgba(255, 255, 255, 0.9);
-      transform: scale(1.03);
+    .search-box button:hover {
+      background-color: #FFF6B7;
+      transform: scale(1.05);
     }
 
+    /* 📖 Tabel Buku */
     table {
+      width: 100%;
       border-collapse: collapse;
-      width: 90%;
-      max-width: 700px;
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-      animation: fadeUp 1.5s ease forwards 0.9s;
+      border-radius: 15px;
+      margin-top: 10px;
+      animation: fadeUp 1.7s ease-in-out;
     }
 
     th, td {
-      padding: 14px 20px;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding: 14px;
+      text-align: left;
     }
 
     th {
-      background: rgba(255, 236, 236, 0.7);
-      color: #3B2E4D;
-      font-weight: 600;
+      background-color: #71C0BB;
+      color: #fff;
     }
 
-    td {
-      color: #4A3A58;
-      font-size: 0.95rem;
-      transition: opacity 0.4s ease;
-    }
-
-    tr {
-      transition: all 0.3s ease;
-    }
-
-    tr.hide {
-      opacity: 0;
-      transform: scale(0.98);
-      pointer-events: none;
-      height: 0;
+    tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.6);
     }
 
     tr:hover {
-      background: rgba(255, 255, 255, 0.8);
+      background-color: #FFE2E2;
       transform: scale(1.01);
+      transition: all 0.2s ease-in-out;
     }
 
-    .signature {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      margin-top: 40px;
-      font-size: 1.1rem;
-      color: #5F4B66;
-      opacity: 0;
-      animation: fadeUp 2s ease forwards 1.2s;
+    /* ✉️ Pesan */
+    .message-box {
+      margin-top: 25px;
+      background: linear-gradient(90deg, #FFB6C1, #FFF6B7, #B8E8C1);
+      padding: 18px;
+      border-radius: 15px;
+      text-align: center;
+      color: #332D56;
+      font-weight: 600;
+      animation: popIn 1s ease-in-out;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
 
-    .btn {
-      margin-top: 30px;
-      padding: 12px 32px;
-      border-radius: 25px;
-      background: #FFE2E2;
-      color: #3B2E4D;
+    /* 🔗 Tombol Pesan Baru */
+    a {
+      display: inline-block;
+      margin-top: 25px;
       text-decoration: none;
+      color: #332D56;
       font-weight: bold;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      opacity: 0;
-      animation: fadeUp 2s ease forwards 1.5s;
+      background: linear-gradient(90deg, #FFCFCF, #FFF6B7, #B8E8C1);
+      padding: 12px 25px;
+      border-radius: 12px;
+      transition: 0.3s;
+      animation: fadeUp 2s ease;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.15);
     }
 
-    .btn:hover {
-      background: #FFFDEC;
-      transform: scale(1.08);
+    a:hover {
+      background: linear-gradient(90deg, #B8E8C1, #FFF6B7, #FFCFCF);
+      transform: scale(1.05);
     }
 
-    .circle {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.25);
-      animation: float 10s infinite ease-in-out;
+    /* 🎞️ Animasi */
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
     }
-
-    .circle:nth-child(1) { width: 100px; height: 100px; top: 10%; left: 15%; animation-delay: 0s; }
-    .circle:nth-child(2) { width: 80px; height: 80px; top: 60%; left: 70%; animation-delay: 2s; }
-    .circle:nth-child(3) { width: 120px; height: 120px; top: 40%; left: 80%; animation-delay: 4s; }
-    .circle:nth-child(4) { width: 70px; height: 70px; top: 80%; left: 25%; animation-delay: 6s; }
-
+    @keyframes slideDown {
+      from { transform: translateY(-40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
     @keyframes fadeUp {
       from { transform: translateY(40px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-
-    @keyframes fadeDown {
-      from { transform: translateY(-40px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0) translateX(0); }
-      50% { transform: translateY(-30px) translateX(20px); }
-    }
-
-    @keyframes gradientFlow {
+    @keyframes gradientMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
@@ -166,59 +213,55 @@
   </style>
 </head>
 <body>
-  <div class="circle"></div>
-  <div class="circle"></div>
-  <div class="circle"></div>
-  <div class="circle"></div>
+  <!-- 🫧 gelembung latar -->
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
 
-  <h1>Data Buku Favorit☁️</h1>
+  <div class="container">
+    <h1>🌷 Daftar Buku Luar Negeri</h1>
 
-  <!-- 🔍 Search Bar -->
-  <div class="search-container">
-    <input type="text" id="searchInput" class="search-input" placeholder="Cari buku...">
+    <div class="search-box">
+      <form method="GET" action="{{ route('home') }}">
+        <input type="text" name="search" placeholder="Cari judul atau penulis..." value="{{ $search ?? '' }}">
+        <button type="submit">🔍 Cari</button>
+      </form>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Judul</th>
+          <th>Penulis</th>
+          <th>Tahun</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse ($books as $item)
+        <tr>
+          <td>{{ $item['judul'] }}</td>
+          <td>{{ $item['penulis'] }}</td>
+          <td>{{ $item['tahun'] }}</td>
+        </tr>
+        @empty
+        <tr>
+          <td colspan="3" style="text-align:center;">Tidak ada buku ditemukan</td>
+        </tr>
+        @endforelse
+      </tbody>
+    </table>
+
+    @if (!empty($message))
+    <div class="message-box">
+      Pesan yang kamu kirim: <br> <em>"{{ $message }}"</em>
+    </div>
+    @endif
+
+    <div style="text-align:center;">
+      <a href="{{ route('form') }}">💌 Kirim Pesan Baru</a>
+    </div>
   </div>
-
-  <table id="bookTable">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Judul Buku</th>
-        <th>Penulis</th>
-        <th>Tahun Terbit</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach ($books as $index => $book)
-      <tr>
-        <td>{{ $index + 1 }}</td>
-        <td>{{ $book['judul'] }}</td>
-        <td>{{ $book['penulis'] }}</td>
-        <td>{{ $book['tahun'] }}</td>
-      </tr>
-      @endforeach
-    </tbody>
-  </table>
-
-  <div class="signature">— crafted with calmness by Ulfahtun Nur Karomah ✨</div>
-
-  <a href="/" class="btn">Back to Main</a>
-
-  <script>
-    // ✨ Fitur Pencarian Buku dengan animasi lembut
-    const searchInput = document.getElementById('searchInput');
-    const tableRows = document.querySelectorAll('#bookTable tbody tr');
-
-    searchInput.addEventListener('keyup', () => {
-      const keyword = searchInput.value.toLowerCase();
-      tableRows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        if (text.includes(keyword)) {
-          row.classList.remove('hide');
-        } else {
-          row.classList.add('hide');
-        }
-      });
-    });
-  </script>
 </body>
 </html>
