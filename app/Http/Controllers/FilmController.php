@@ -28,9 +28,21 @@ class FilmController extends Controller
             'sutradara' => 'required',
             'tahun_rilis' => 'required|digits:4|integer',
             'genre' => 'required',
+            'poster' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        Film::create($request->all());
+        $data = $request->all();
+
+        // Upload poster jika ada
+        if ($request->hasFile('poster')) {
+            $file = $request->file('poster');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('posters'), $filename);
+            $data['poster'] = $filename;
+        }
+
+        Film::create($data);
+
         return redirect()->route('films.index')->with('success', 'Film berhasil ditambahkan!');
     }
 
@@ -49,12 +61,30 @@ class FilmController extends Controller
             'sutradara' => 'required',
             'tahun_rilis' => 'required|digits:4|integer',
             'genre' => 'required',
+            'poster' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         $film = Film::findOrFail($id);
-        $film->update($request->all());
+        $data = $request->all();
+
+        // Jika ada file poster baru
+        if ($request->hasFile('poster')) {
+            $file = $request->file('poster');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('posters'), $filename);
+            $data['poster'] = $filename;
+        }
+
+        $film->update($data);
 
         return redirect()->route('films.index')->with('success', 'Film berhasil diperbarui!');
+    }
+
+    // Menampilkan detail film
+    public function show($id)
+    {
+        $film = Film::findOrFail($id);
+        return view('films.show', compact('film'));
     }
 
     // Menghapus film

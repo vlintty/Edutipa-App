@@ -20,7 +20,7 @@
     }
     h1 { color: #4A148C; }
     table {
-      width: 80%;
+      width: 90%;
       margin: 20px auto;
       border-collapse: collapse;
       background: #fff7f7b3;
@@ -31,9 +31,25 @@
     th, td {
       padding: 12px;
       border-bottom: 1px solid #ddd;
+      vertical-align: middle;
     }
     th { background-color: #FFC1CC; color: #4A148C; }
-    td button, a {
+    td img {
+      width: 70px;
+      height: 100px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    a.add {
+      display: inline-block;
+      background: #C8E6C9;
+      margin-bottom: 15px;
+      padding: 8px 15px;
+      border-radius: 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .edit, .show, .delete {
       border: none;
       padding: 6px 15px;
       border-radius: 15px;
@@ -41,18 +57,17 @@
       font-weight: bold;
       cursor: pointer;
     }
-    a.add {
-      display: inline-block;
-      background: #C8E6C9;
-      margin-bottom: 15px;
-    }
     .edit { background: #FFF59D; color: #4A148C; }
+    .show { background: #BBDEFB; color: #0D47A1; }
     .delete { background: #FFC1CC; color: #880E4F; }
     .back {
       display: inline-block;
       margin-top: 20px;
       background: #FFECB3;
       color: #4A148C;
+      padding: 8px 15px;
+      border-radius: 15px;
+      text-decoration: none;
     }
   </style>
 </head>
@@ -66,29 +81,39 @@
   @endif
 
   <table>
-  <tr>
-    <th>Judul</th>
-    <th>Genre</th>
-    <th>Tahun Rilis</th>
-    <th>Aksi</th>
-  </tr>
-  @foreach($films as $film)
     <tr>
-      <td>{{ $film->judul }}</td>
-      <td>{{ $film->genre }}</td>
-      <td>{{ $film->tahun_rilis }}</td>
-      <td>
-        <a href="{{ route('films.edit', $film->id) }}" class="edit">✏️ Edit</a>
-        <form action="{{ route('films.destroy', $film->id) }}" method="POST" style="display:inline;">
-          @csrf
-          @method('DELETE')
-          <button type="submit" class="delete" onclick="return confirm('Yakin mau hapus?')">🗑️ Hapus</button>
-        </form>
-      </td>
+      <th>Poster</th>
+      <th>Judul</th>
+      <th>Sutradara</th>
+      <th>Tahun</th>
+      <th>Genre</th>
+      <th>Aksi</th>
     </tr>
-  @endforeach
-</table>
-
+    @foreach($films as $film)
+      <tr>
+        <td>
+          @if($film->poster)
+            <img src="{{ asset('posters/' . $film->poster) }}" alt="Poster">
+          @else
+            <span>Tidak ada</span>
+          @endif
+        </td>
+        <td>{{ $film->judul }}</td>
+        <td>{{ $film->sutradara }}</td>
+        <td>{{ $film->tahun_rilis }}</td>
+        <td>{{ $film->genre }}</td>
+        <td>
+          <a href="{{ route('films.show', $film->id) }}" class="show">👁️ Lihat</a>
+          <a href="{{ route('films.edit', $film->id) }}" class="edit">✏️ Edit</a>
+          <form action="{{ route('films.destroy', $film->id) }}" method="POST" style="display:inline;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="delete" onclick="return confirm('Yakin mau hapus?')">🗑️ Hapus</button>
+          </form>
+        </td>
+      </tr>
+    @endforeach
+  </table>
 
   <a href="/" class="back">⬅️ Kembali ke Welcome</a>
 </body>

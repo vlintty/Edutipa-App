@@ -15,5 +15,6 @@ class Film extends Model
         'sutradara',
         'tahun_rilis',
         'genre',
+        'poster',
     ];
 }

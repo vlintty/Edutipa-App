@@ -17,8 +17,11 @@ Route::post('/form', [HomeController::class, 'submit'])->name('form.submit');
 Route::get('/films', [FilmController::class, 'index'])->name('films.index');
 Route::get('/films/create', [FilmController::class, 'create'])->name('films.create');
 Route::post('/films', [FilmController::class, 'store'])->name('films.store');
+Route::get('/films/{id}', [FilmController::class, 'show'])->name('films.show');
+
 
 
 Route::get('/films/{id}/edit', [FilmController::class, 'edit'])->name('films.edit');
 Route::put('/films/{id}', [FilmController::class, 'update'])->name('films.update');
 Route::delete('/films/{id}', [FilmController::class, 'destroy'])->name('films.destroy');
+

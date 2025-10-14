@@ -52,17 +52,23 @@
 <body>
   <h1>Edit Data Film 🎬</h1>
 
-  <form action="{{ route('films.update', $film->id) }}" method="POST">
-    @csrf
-    @method('PUT')
+ <form action="{{ route('films.update', $film->id) }}" method="POST" enctype="multipart/form-data">
+  @csrf
+  @method('PUT')
+  <input type="text" name="judul" value="{{ $film->judul }}" required>
+  <input type="text" name="sutradara" value="{{ $film->sutradara }}" required>
+  <input type="number" name="tahun_rilis" value="{{ $film->tahun_rilis }}" required>
+  <input type="text" name="genre" value="{{ $film->genre }}" required>
+  
+  <input type="file" name="poster" accept="image/*">
+  @if($film->poster)
+      <p>Poster saat ini:</p>
+      <img src="{{ asset('posters/'.$film->poster) }}" width="100">
+  @endif
+  
+  <button type="submit">Update</button>
+</form>
 
-    <input type="text" name="judul" value="{{ $film->judul }}" placeholder="Judul Film" required>
-    <input type="text" name="sutradara" value="{{ $film->sutradara }}" placeholder="Sutradara" required>
-    <input type="number" name="tahun_rilis" value="{{ $film->tahun_rilis }}" placeholder="Tahun Rilis" required>
-    <input type="text" name="genre" value="{{ $film->genre }}" placeholder="Genre" required>
-
-    <button type="submit">Update</button>
-  </form>
 
   <a href="{{ route('films.index') }}">⬅️ Kembali</a>
 </body>
